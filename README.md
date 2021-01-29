@@ -29,9 +29,16 @@ pip install -r requirements.txt
 python3 main.py YOUR_BOT_TOKEN
 ```
 
+Running the bot in a background process (e.g when connected via ssh):
+
 ```bash
-# run in background
+# start in background
 nohup python3 main.py YOUR_BOT_TOKEN &
+# save pid in txt
+echo $! > pid.txt
+# stop background process
+kill -9 `cat pid.txt`
+rm pid.txt
 ```
 
 ## used libraries
