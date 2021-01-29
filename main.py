@@ -33,7 +33,7 @@ def log_forever():
     while True:
         result = sgp30.get_air_quality()
         timestamp = datetime.datetime.now()
-        logger.info('{timestamp},{result.equivalent_co2},{result.total_voc}')
+        logger.info(f'{timestamp},{result.equivalent_co2},{result.total_voc}')
         time.sleep(1.0)
 
 
