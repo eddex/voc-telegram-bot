@@ -23,12 +23,17 @@ def get(update: Update, context: CallbackContext) -> None:
 def log_forever():
 
     logger = logging.getLogger('air-quality-logger')
+    logger.setLevel(logging.DEBUG)
     handler = logging.FileHandler('measurement.csv')
+    handler.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(message)s')
+    handler.setFormatter(formatter)
     logger.addHandler(handler)
 
     while True:
         result = sgp30.get_air_quality()
-        logger.info(str(datetime.datetime.now()) + ',' + str(result.equivalent_co2) + ',' + str(result.total_voc))
+        timestamp = datetime.datetime.now()
+        logger.info('{timestamp},{result.equivalent_co2},{result.total_voc}')
         time.sleep(1.0)
 
 
