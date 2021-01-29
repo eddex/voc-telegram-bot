@@ -17,7 +17,7 @@ def start(update: Update, context: CallbackContext) -> None:
 
 def get(update: Update, context: CallbackContext) -> None:
     result = sgp30.get_air_quality()
-    update.message.reply_text(f'VOC: {result.total_voc}\neCO2: {result.equivalent_co2}')
+    update.message.reply_text(f'VOC: {result.total_voc} ppb\neCO2: {result.equivalent_co2} ppm')
 
 
 def log_forever():
