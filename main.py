@@ -1,22 +1,36 @@
 import sys
+from sgp30 import SGP30
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
 
 
-if len(sys.argv) != 2:
-    raise ValueError('Please provide your Telegram bot API token as a command line parameter.')
+sgp30 = SGP30()
+sgp30.start_measurement()
+
+
+
 
 def start(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text(f'Hello {update.effective_user.first_name}')
+    update.message.reply_text(f'Hello {update.effective_user.first_name}.')
 
 def get(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text(f'No data yet.')
+    result = sgp30.get_air_quality()
+    update.message.reply_text(f'VOC: {result.total_voc}\neCO2: {result.equivalent_co2}')
 
 
-updater = Updater(sys.argv[1])
+def main():
 
-updater.dispatcher.add_handler(CommandHandler('start', start))
-updater.dispatcher.add_handler(CommandHandler('get', get))
+    if len(sys.argv) != 2:
+        raise ValueError('Please provide your Telegram bot API token as a command line parameter.')
 
-updater.start_polling()
-updater.idle()
+    updater = Updater(sys.argv[1])
+
+    updater.dispatcher.add_handler(CommandHandler('start', start))
+    updater.dispatcher.add_handler(CommandHandler('get', get))
+
+    updater.start_polling()
+    updater.idle()
+
+
+if __name__ == '__main__':
+    main()
